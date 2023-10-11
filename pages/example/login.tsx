@@ -3,7 +3,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 
 import { Label, Input, Button, WindmillContext } from '@roketid/windmill-react-ui'
-import { GithubIcon, TwitterIcon } from 'icons'
+import { GithubIcon, TwitterIcon } from '../../icons'
 
 function LoginPage() {
   const { mode } = useContext(WindmillContext)
@@ -32,8 +32,7 @@ function LoginPage() {
                 <Input
                   className='mt-1'
                   type='email'
-                  placeholder='john@doe.com'
-                />
+                  placeholder='john@doe.com' crossOrigin={undefined} />
               </Label>
 
               <Label className='mt-4'>
@@ -41,8 +40,7 @@ function LoginPage() {
                 <Input
                   className='mt-1'
                   type='password'
-                  placeholder='***************'
-                />
+                  placeholder='***************' crossOrigin={undefined} />
               </Label>
 
               <Link href='/example' passHref={true}>
@@ -63,24 +61,20 @@ function LoginPage() {
               </Button>
 
               <p className='mt-4'>
-                <Link href='/example/forgot-password'>
-                  <a className='text-sm font-medium text-purple-600 dark:text-purple-400 hover:underline'>
-                    Forgot your password?
-                  </a>
+                <Link href='/example/forgot-password' className='text-sm font-medium text-purple-600 dark:text-purple-400 hover:underline'>
+                  Forgot your password?
                 </Link>
               </p>
               <p className='mt-1'>
-                <Link href='/example/create-account'>
-                  <a className='text-sm font-medium text-purple-600 dark:text-purple-400 hover:underline'>
-                    Create account
-                  </a>
+                <Link href='/example/create-account' className='text-sm font-medium text-purple-600 dark:text-purple-400 hover:underline'>
+                  Create account
                 </Link>
               </p>
             </div>
           </main>
         </div>
-      </div>
-    </div>
+      </div >
+    </div >
   );
 }
 

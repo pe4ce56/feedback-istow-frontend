@@ -1,8 +1,9 @@
+import Link from 'next/link'
 import React from 'react'
 
 function CTA() {
   return (
-    <a
+    <Link
       className="flex items-center justify-between p-4 mb-8 text-sm font-semibold text-purple-100 bg-purple-600 rounded-lg shadow-md focus:outline-none focus:shadow-outline-purple"
       href="https://github.com/roketid/windmill-dashboard-nextjs-typescript"
     >
@@ -15,7 +16,7 @@ function CTA() {
       <span>
         View more <span dangerouslySetInnerHTML={{ __html: '&RightArrow;' }}></span>
       </span>
-    </a>
+    </Link>
   )
 }
 

@@ -40,7 +40,7 @@ function Cards() {
         </InfoCard>
 
         <InfoCard title="Account balance" value="$ 46,760.89">
-        {/* @ts-ignore */}
+          {/* @ts-ignore */}
           <RoundIcon
             icon={MoneyIcon}
             iconColorClass="text-green-500 dark:text-green-100"

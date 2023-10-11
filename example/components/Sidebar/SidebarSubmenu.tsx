@@ -1,11 +1,11 @@
 import React, { useState, useContext } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { DropdownIcon, IIcon } from 'icons'
-import * as Icons from 'icons'
+import { DropdownIcon, IIcon } from '../../../icons'
+import * as Icons from '../../../icons'
 import { Transition } from '@roketid/windmill-react-ui'
-import { IRoute, routeIsActive } from 'routes/sidebar'
-import SidebarContext from 'context/SidebarContext'
+import { IRoute, routeIsActive } from '../../../routes/sidebar'
+import SidebarContext from '../../../context/SidebarContext'
 
 function Icon({ icon, ...props }: IIcon) {
   // @ts-ignore
@@ -24,10 +24,10 @@ function SidebarSubmenu({ route, linkClicked }: ISidebarSubmenu) {
 
   const [isDropdownMenuOpen, setIsDropdownMenuOpen] = useState(
     route.routes
-    ? route.routes.filter((r) => {
+      ? route.routes.filter((r) => {
         return routeIsActive(pathname, r)
       }).length > 0
-    : false
+      : false
   )
 
   function handleDropdownMenuClick() {
@@ -43,16 +43,15 @@ function SidebarSubmenu({ route, linkClicked }: ISidebarSubmenu) {
         ></span>
       )}
       <button
-        className={`inline-flex items-center justify-between w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 ${
-          isDropdownMenuOpen
-            ? 'dark:text-gray-100 text-gray-800'
-            : ''
-        }`}
+        className={`inline-flex items-center justify-between w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 ${isDropdownMenuOpen
+          ? 'dark:text-gray-100 text-gray-800'
+          : ''
+          }`}
         onClick={handleDropdownMenuClick}
         aria-haspopup="true"
       >
         <span className="inline-flex items-center">
-          
+
           <Icon className="w-5 h-5" aria-hidden="true" icon={route.icon || ""} />
           <span className="ml-4">{route.name}</span>
         </span>
@@ -79,18 +78,13 @@ function SidebarSubmenu({ route, linkClicked }: ISidebarSubmenu) {
               >
                 <Link
                   href={r.path || ""}
-                  scroll={false}
-                >
-                  <a
-                    className={`w-full inline-block ${
-                      routeIsActive(pathname, r)
-                      ? 'dark:text-gray-100 text-gray-800'
-                      : ''
+                  scroll={false} className={`w-full inline-block ${routeIsActive(pathname, r)
+                    ? 'dark:text-gray-100 text-gray-800'
+                    : ''
                     }`}
-                    onClick={linkClicked}
-                  >
-                    {r.name}
-                  </a>
+                  onClick={linkClicked}
+                >
+                  {r.name}
                 </Link>
               </li>
             ))

@@ -1,5 +1,5 @@
 import React, { useContext, useRef } from 'react'
-import SidebarContext from 'context/SidebarContext'
+import SidebarContext from '../../../context/SidebarContext'
 import SidebarContent from './SidebarContent'
 
 function DesktopSidebar() {

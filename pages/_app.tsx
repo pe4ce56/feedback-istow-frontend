@@ -10,7 +10,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   if (!process.browser) React.useLayoutEffect = React.useEffect;
 
   return (
-    <Windmill usePreferences={true}>
+    <Windmill usePreferences={true} >
       <Component {...pageProps} />
     </Windmill>
   )

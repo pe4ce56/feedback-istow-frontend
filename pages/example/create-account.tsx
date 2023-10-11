@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 
-import { GithubIcon, TwitterIcon } from 'icons'
+import { GithubIcon, TwitterIcon } from '../../icons'
 import { Input, Label, Button, WindmillContext } from '@roketid/windmill-react-ui'
 
 function CrateAccount() {
@@ -29,28 +29,28 @@ function CrateAccount() {
               </h1>
               <Label>
                 <span>Email</span>
-                <Input className="mt-1" type="email" placeholder="john@doe.com" />
+                <Input className="mt-1" type="email" placeholder="john@doe.com" crossOrigin={undefined} />
               </Label>
               <Label className="mt-4">
                 <span>Password</span>
-                <Input className="mt-1" placeholder="***************" type="password" />
+                <Input className="mt-1" placeholder="***************" type="password" crossOrigin={undefined} />
               </Label>
               <Label className="mt-4">
                 <span>Confirm password</span>
-                <Input className="mt-1" placeholder="***************" type="password" />
+                <Input className="mt-1" placeholder="***************" type="password" crossOrigin={undefined} />
               </Label>
 
               <Label className="mt-6" check>
-                <Input type="checkbox" />
+                <Input type="checkbox" crossOrigin={undefined} />
                 <span className="ml-2">
                   I agree to the <span className="underline">privacy policy</span>
                 </span>
               </Label>
 
               <Link
-                  href='/example/login'
-                  passHref={true}
-                >
+                href='/example/login'
+                passHref={true}
+              >
                 <Button block className="mt-4">
                   Create account
                 </Button>
@@ -68,19 +68,17 @@ function CrateAccount() {
               </Button>
 
               <p className="mt-4">
-                <Link href="/example/login">
-                  <a
-                    className="text-sm font-medium text-purple-600 dark:text-purple-400 hover:underline"
-                  >
-                    Already have an account? Login
-                  </a>
+                <Link href="/example/login"
+                  className="text-sm font-medium text-purple-600 dark:text-purple-400 hover:underline"
+                >
+                  Already have an account? Login
                 </Link>
               </p>
             </div>
           </main>
         </div>
-      </div>
-    </div>
+      </div >
+    </div >
   )
 }
 

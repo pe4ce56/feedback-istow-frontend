@@ -1,18 +1,18 @@
 import Link from 'next/link'
-import routes, { routeIsActive } from 'routes/sidebar'
-import * as Icons from 'icons'
-import { IIcon } from 'icons'
+import routes, { routeIsActive } from '../../../routes/sidebar'
+import * as Icons from '../../../icons'
+import { IIcon } from '../../../icons'
 import SidebarSubmenu from './SidebarSubmenu'
 import { Button } from '@roketid/windmill-react-ui'
 import { useRouter } from 'next/router'
 
-function Icon({ icon, ...props }: IIcon){
+function Icon({ icon, ...props }: IIcon) {
   // @ts-ignore
-  const Icon= Icons[icon]
+  const Icon = Icons[icon]
   return <Icon {...props} />
 }
 
-interface ISidebarContent{
+interface ISidebarContent {
   linkClicked: () => void
 }
 
@@ -24,15 +24,13 @@ function SidebarContent({ linkClicked }: ISidebarContent) {
     <div className="text-gray-500 dark:text-gray-400">
       <Link href="/#" passHref>
         <div className='ml-6 py-6'>
-          <a
-            className="text-lg font-bold text-gray-800 dark:text-gray-200"
-          >
+          <div className="text-lg font-bold text-gray-800 dark:text-gray-200">
             {appName}
-          </a>
+          </div>
         </div>
       </Link>
       <ul>
-        {routes.map((route) =>
+        {routes.map((route: any) =>
           route.routes ? (
             <SidebarSubmenu route={route} key={route.name} linkClicked={linkClicked} />
           ) : (
@@ -41,12 +39,11 @@ function SidebarContent({ linkClicked }: ISidebarContent) {
                 href={route.path || '#'}
                 scroll={false}
               >
-                <a
-                  className={`inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 ${
-                    routeIsActive(pathname, route)
-                      ? 'dark:text-gray-100 text-gray-800'
-                      : ''
-                  }`}
+                <div
+                  className={`inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 ${routeIsActive(pathname, route)
+                    ? 'dark:text-gray-100 text-gray-800'
+                    : ''
+                    }`}
                   onClick={linkClicked}
                 >
                   {routeIsActive(pathname, route) && (
@@ -62,20 +59,13 @@ function SidebarContent({ linkClicked }: ISidebarContent) {
                     icon={route.icon || ''}
                   />
                   <span className='ml-4'>{route.name}</span>
-                </a>
+                </div>
               </Link>
             </li>
           )
         )}
       </ul>
-      <div className="px-6 my-6">
-        <Button>
-          Create account
-          <span className="ml-2" aria-hidden="true">
-            +
-          </span>
-        </Button>
-      </div>
+
     </div>
   )
 }

@@ -1,10 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { Doughnut, Line } from 'react-chartjs-2'
 
-import CTA from '../../example/components/CTA'
 import InfoCard from '../../example/components/Cards/InfoCard'
-import ChartCard from '../../example/components/Chart/ChartCard'
-import ChartLegend from '../../example/components/Chart/ChartLegend'
 import PageTitle from '../../example/components/Typography/PageTitle'
 import RoundIcon from '../../example/components/RoundIcon'
 import Layout from '../../example/containers/Layout'
@@ -70,8 +66,16 @@ function Dashboard() {
   )
 
 
-  const [startDate, setStartDate] = useState<string>();
-  const [endDate, setEndDate] = useState<string>();
+  const [startDate, setStartDate] = useState<string>(() => {
+    let date_today = new Date();
+
+    return new Date(date_today.getFullYear(), date_today.getMonth(), 2).toISOString().split('T')[0];
+  });
+  const [endDate, setEndDate] = useState<string>(() => {
+    let date_today = new Date();
+
+    return new Date(date_today.getFullYear(), date_today.getMonth() + 1, 0).toISOString().split('T')[0];
+  });
 
   // grading
   const [grading, setGrading] = useState(96);
@@ -108,7 +112,7 @@ function Dashboard() {
         for (let questioner of o.questioners) {
           if (customer.findIndex((e: any) => e == questioner.customer.id) > -1) continue;
           customer.push(questioner.customer.id)
-          total++;    
+          total++;
         }
       }
       setTotalRespondent(total);
@@ -145,13 +149,13 @@ function Dashboard() {
         <Card className='mb-5'>
           <CardBody className='flex gap-2'>
             {/* Start Date */}
-            <Input type='date' crossOrigin={undefined} onChange={(e) => setStartDate(e.target.value)} />
+            <Input type='date' crossOrigin={undefined} value={startDate} onChange={(e) => setStartDate(e.target.value)} />
           </CardBody>
         </Card>
         <Card className='mb-5'>
           <CardBody className='flex gap-2'>
             {/* End Date */}
-            <Input type='date' crossOrigin={undefined} onChange={(e) => setEndDate(e.target.value)} />
+            <Input type='date' crossOrigin={undefined} value={endDate} onChange={(e) => setEndDate(e.target.value)} />
           </CardBody>
         </Card>
       </div>
@@ -296,10 +300,10 @@ function Dashboard() {
 
 
       </div>
-      <PageTitle>Charts</PageTitle>
+      {/* <PageTitle>Charts</PageTitle>
 
       <div className="grid gap-6 mb-8 md:grid-cols-2">
-      </div>
+      </div> */}
 
     </Layout>
   )

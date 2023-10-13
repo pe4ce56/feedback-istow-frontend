@@ -21,6 +21,7 @@ import {
   ModalFooter,
   Label,
   Input,
+  Select,
 } from '@roketid/windmill-react-ui'
 import { EditIcon, TrashIcon } from '../../icons'
 
@@ -99,7 +100,7 @@ function Tables() {
   const [totalResults, setTotalResults] = useState(1)
   const [dataTable1, setDataTable1] = useState<ITableData[]>([])
   const [data, setData] = useState<ITableData[]>([])
-  const resultsPerPage = 2
+  const resultsPerPage = 10
 
   useEffect(() => {
     getQuestion()
@@ -128,7 +129,8 @@ function Tables() {
 
   const addQuestion = (question: any) => {
     API.post("/question", {
-      question
+      question,
+      type: 1
     }).then(e => {
       getQuestion()
     }).catch(e => {
@@ -137,7 +139,8 @@ function Tables() {
 
   const updateQuestion = (question: any) => {
     API.patch("/question/" + idEdit, {
-      question
+      question,
+      type: 1
     }).then(e => {
       getQuestion()
     }).catch(e => {
@@ -167,6 +170,14 @@ function Tables() {
           setIdEdit(0)
           setIsModalOpen(true)
         }}>+</Button>
+        {/* <div className="w-24">
+          <Select className="mt-1 ">
+            <option>Customers</option>
+            <option>Pelanggan</option>
+            <option>$10,000</option>
+            <option>$25,000</option>
+          </Select>
+        </div> */}
       </div>
       <TableContainer className="mb-8">
         <Table>

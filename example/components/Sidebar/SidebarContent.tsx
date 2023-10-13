@@ -35,9 +35,8 @@ function SidebarContent({ linkClicked }: ISidebarContent) {
             <SidebarSubmenu route={route} key={route.name} linkClicked={linkClicked} />
           ) : (
             <li className='relative px-6 py-3' key={route.name}>
-              <Link
+              <a
                 href={route.path || '#'}
-                scroll={false}
               >
                 <div
                   className={`inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 ${routeIsActive(pathname, route)
@@ -60,7 +59,7 @@ function SidebarContent({ linkClicked }: ISidebarContent) {
                   />
                   <span className='ml-4'>{route.name}</span>
                 </div>
-              </Link>
+              </a>
             </li>
           )
         )}

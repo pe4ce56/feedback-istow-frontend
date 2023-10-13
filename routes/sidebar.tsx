@@ -30,6 +30,11 @@ const routes: IRoute[] = [
     name: 'Dashboard', // name that appear in Sidebar
   },
   {
+    path: '/admin/instance', // the url
+    icon: 'CardsIcon', // the component being exported from icons/index.js
+    name: 'Instance', // name that appear in Sidebar
+  },
+  {
     icon: 'TablesIcon',
     name: 'Master',
     routes: [

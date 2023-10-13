@@ -25,9 +25,10 @@ export function routeIsActive(pathname: String, route: IRoute): boolean {
 
 const routes: IRoute[] = [
   {
-    path: '/admin/dashboard', // the url
+    path: '/admin', // the url
     icon: 'HomeIcon', // the component being exported from icons/index.js
     name: 'Dashboard', // name that appear in Sidebar
+    exact: true
   },
   {
     path: '/admin/instance', // the url

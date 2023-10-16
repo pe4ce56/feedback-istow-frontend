@@ -27,7 +27,7 @@ import {
 import { EditIcon, MailIcon, PagesIcon, TrashIcon } from '../../icons'
 
 import Layout from '../../example/containers/Layout'
-import API, { checkAuth } from '../../app/API'
+import API, { useAuth } from '../../app/API'
 import { useRouter } from 'next/router'
 import toast, { Toaster } from 'react-hot-toast';
 
@@ -109,7 +109,7 @@ function Tables() {
   const resultsPerPage = 10
   const [basePath, setBasePath] = useState("");
 
-  checkAuth();
+  useAuth();
 
   useEffect(() => {
     getInstance()

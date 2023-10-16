@@ -21,7 +21,7 @@ API.interceptors.request.use((config) => {
 
 export default API;
 
-export const checkAuth = () => {
+export const useAuth = () => {
   useEffect(() => {
     const check = () => {
       const token = localStorage.getItem("token");

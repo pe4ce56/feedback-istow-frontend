@@ -12,7 +12,7 @@ import {
 } from '../../icons'
 import { Avatar, Badge, Input, Dropdown, DropdownItem, WindmillContext } from '@roketid/windmill-react-ui'
 import { useRouter } from 'next/router'
-import { checkAuth } from '../../app/API'
+import { useAuth } from '../../app/API'
 
 function Header() {
   const router = useRouter();

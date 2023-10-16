@@ -33,7 +33,7 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js'
-import API, { checkAuth } from '../../app/API'
+import API, { useAuth } from '../../app/API'
 import SectionTitle from '../../example/components/Typography/SectionTitle'
 import round from '../../utils'
 import { start } from 'repl'
@@ -66,7 +66,7 @@ function Dashboard() {
     Legend
   )
 
-  checkAuth();
+  useAuth();
 
   const [startDate, setStartDate] = useState<string>(() => {
     let date_today = new Date();

@@ -1,8 +1,8 @@
 import type { NextPage } from 'next'
 import React, { useEffect, useState } from 'react'
 import { Alert, Button, Card, CardBody, Input, Label, Textarea } from '@roketid/windmill-react-ui';
-import API from '../app/API';
-import Loading from '../components/loading';
+import API from '../../app/API';
+import Loading from '../../components/loading';
 import { useRouter } from 'next/router';
 import CryptoJS from "crypto-js";
 

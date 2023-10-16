@@ -70,8 +70,8 @@ const Comments = ({ comments, onCommentsChanged }: any) => {
 }
 
 const Home: NextPage = () => {
-  const { query } = useRouter()
-  const { slug } = query;
+  const router = useRouter()
+  const { slug } = router.query;
 
   const [isLoading, setIsLoading] = useState(false);
   const [customer, setCustomer] = useState<CustomerAbstract>({ name: "", position: "", comments: "" })
@@ -84,7 +84,8 @@ const Home: NextPage = () => {
   const [isSubmited, setIsSubmited] = useState<isSubmitedAbstract>()
   const [instance, setInstance] = useState<InstanceAbstract>();
   useEffect(() => {
-    if (!slug) return;
+    console.log(slug);
+    if (!router.isReady) return;
     setIsLoading(true)
 
 

@@ -58,7 +58,7 @@ const Form = ({ name, position, onNameChange, onPositionChange }: any) => (
     </Label>
     <Label className='dark:text-gray-700 text-gray-700'>
       <span>Position</span>
-      <Input className="mt-1 dark:bg-white dark:text-gray-800 dark:border-gray-400" onChange={(e) => onPositionChange(e.target.value)} value={position} crossOrigin={undefined} />
+      <Input className="mt-1 dark:bg-white dark:text-gray-800 dark:border-gray-400 text-gray-800 border-gray-800" onChange={(e) => onPositionChange(e.target.value)} value={position} crossOrigin={undefined} />
     </Label>
   </form>
 )
@@ -206,46 +206,57 @@ const Home: NextPage = ({ cust }: any) => {
 
   return (
     <>
-      <div className='w-full min-h-screen flex justify-center items-center md:p-5 px-2 py-5'>
-        <Card className="mb-8 shadow-md dark:bg-white ring-gray-300 p-0  md:w-2/5 w-full  shadow-xl">
-          <CardBody className='bg-white p-10 md:px-10'>
-            <p className="text-2xl text-primary font-sans font-bold">iStow Survey</p>
-            <p className="text-1xl text-primary font-sans font-bold">{instance?.name}</p>
+      <div className="w-full min-h-screen  bg-cover bg-no-repeat " >
+        <div className=" backdrop-blur-sm w-full min-h-screen  flex justify-center items-center md:p-5 px-2 py-5">
+          <Card className="mb-8 shadow-md dark:bg-white ring-gray-300 p-0  md:w-2/5 w-full shadow-xl ">
+            <CardBody className='bg-white p-10 md:px-10'>
+              <p className="text-2xl text-primary font-poppins ">iStow Survey</p>
+              <p className="text-1xl text-primary font-sans">{instance?.name}</p>
 
-            {!isSubmited ? (
-              <div className="mt-8">
-                {indexQuestion == -1 ? (
-                  < Form name={customer.name} position={customer.position} onNameChange={(name: string) => setCustomer({ ...customer, name })} onPositionChange={(position: string) => setCustomer({ ...customer, position })} />
-                ) :
-                  indexQuestion < question.length ?
-                    <Question />
-                    :
-                    <Comments comments={customer.comments} onCommentsChanged={(comments: string) => setCustomer({ ...customer, comments })} />
-                }
-                <div className="flex">
-                  {indexQuestion != -1 && (
-                    <button onClick={handlePrevious} disabled={!isPrevious} className="disabled:bg-gray-200 disabled:hover:text-primary disabled:cursor-not-allowed  mt-6 text-sm bg-transparent hover:bg-primary text-primary hover:text-white py-2 px-4 border border-primary hover:border-transparent rounded">
-                      Previous
+              {!isSubmited ? (
+                <div className="mt-8">
+                  {indexQuestion == -1 ? (
+                    < Form name={customer.name} position={customer.position} onNameChange={(name: string) => setCustomer({ ...customer, name })} onPositionChange={(position: string) => setCustomer({ ...customer, position })} />
+                  ) :
+                    indexQuestion < question.length ?
+                      <Question />
+                      :
+                      <Comments comments={customer.comments} onCommentsChanged={(comments: string) => setCustomer({ ...customer, comments })} />
+                  }
+                  <div className="flex">
+                    {indexQuestion != -1 && (
+                      <button onClick={handlePrevious} disabled={!isPrevious} className="disabled:bg-gray-200 disabled:hover:text-primary disabled:cursor-not-allowed  mt-6 text-sm bg-transparent hover:bg-primary text-primary hover:text-white py-2 px-4 border border-primary hover:border-transparent rounded">
+                        Previous
+                      </button>
+                    )}
+                    <button onClick={handleNext} disabled={!isNext} className="disabled:bg-gray-200 disabled:hover:text-primary disabled:cursor-not-allowed  disabled:border-transparent disabled:text-gray-400 disabled:hover:text-gray-400 self-end mt-6 ml-auto text-sm bg-transparent hover:bg-primary text-primary hover:text-white py-2 px-4 border border-primary hover:border-transparent rounded">
+                      {indexQuestion == question.length ? "Submit" : "Next"}
                     </button>
-                  )}
-                  <button onClick={handleNext} disabled={!isNext} className="disabled:bg-gray-200 disabled:hover:text-primary disabled:cursor-not-allowed  disabled:border-transparent disabled:text-gray-400 disabled:hover:text-gray-400 self-end mt-6 ml-auto text-sm bg-transparent hover:bg-primary text-primary hover:text-white py-2 px-4 border border-primary hover:border-transparent rounded">
-                    {indexQuestion == question.length ? "Submit" : "Next"}
-                  </button>
+                  </div>
                 </div>
-              </div>
-            ) : (
-              <Alert className='dark:bg-green-50 dark:text-green-900 my-5' type={isSubmited.success ? 'success' : 'danger'} >
-                Thank you for filling out the questionnaire
-              </Alert>
-            )}
-          </CardBody>
-          <div className="bg-primary w-full py-2 ">
-            {(indexQuestion > -1 && !isSubmited) && (<p className='text-center text-sm text-gray-200'> {questioner[indexQuestion]?.value ? indexQuestion + 1 : indexQuestion} of {question.length} answered </p>)}
-          </div>
-        </Card>
-      </div>
+              ) : (
 
-      {isLoading && (<Loading />)}
+                <div>
+                  <p className='text-sm text-primary font-bold mt-5'>
+                    Thank you!
+                  </p>
+                  <p className='text-sm text-semibold my-5'>
+
+                    We really appreciate you taking the time to share your opinions regarding our performance and services. The opinions that have been expressed are important to us as part of our responsibility in providing higher quality services.
+                  </p>
+                </div>
+              )}
+            </CardBody>
+            <div className="bg-primary w-full py-2 ">
+              {(indexQuestion > -1 && !isSubmited) && (<p className='text-center text-sm text-gray-200'> {questioner[indexQuestion]?.value ? indexQuestion + 1 : indexQuestion} of {question.length} answered </p>)}
+            </div>
+
+          </Card>
+        </div>
+      </div >
+
+      {isLoading && (<Loading />)
+      }
 
     </>
   )

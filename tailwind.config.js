@@ -11,6 +11,10 @@ module.exports = windmill({
     colors: {
       primary: "#912062",
     },
+    fontFamily: {
+      poppins: ["Poppins", "sans-serif"],
+    },
+    extends: {},
   },
   plugins: [],
 });

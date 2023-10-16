@@ -79,7 +79,7 @@ function Tables() {
 
   return (
     <Layout>
-      <PageTitle>Instance</PageTitle>
+      <PageTitle>Questioners</PageTitle>
       <div className="flex gap-2 items-center">
         <SectionTitle>Data Questioners</SectionTitle>
       </div>

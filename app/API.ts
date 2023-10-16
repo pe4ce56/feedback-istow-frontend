@@ -12,6 +12,7 @@ let API = axios.create({
 
 // Add an interceptor to set the Bearer token in the Authorization header for every request.
 API.interceptors.request.use((config) => {
+  console.log(process.env.NEXT_PUBLIC_API_URL);
   const token = localStorage.getItem("token"); // Replace with your Bearer token
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;

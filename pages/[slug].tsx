@@ -70,7 +70,8 @@ const Comments = ({ comments, onCommentsChanged }: any) => {
 }
 
 const Home: NextPage = () => {
-  const router = useRouter()
+  const { query } = useRouter()
+  const { slug } = query;
 
   const [isLoading, setIsLoading] = useState(false);
   const [customer, setCustomer] = useState<CustomerAbstract>({ name: "", position: "", comments: "" })
@@ -83,16 +84,13 @@ const Home: NextPage = () => {
   const [isSubmited, setIsSubmited] = useState<isSubmitedAbstract>()
   const [instance, setInstance] = useState<InstanceAbstract>();
   useEffect(() => {
-
-    if (!router.isReady) return;
-
+    if (!slug) return;
     setIsLoading(true)
 
 
-    const chiperText = router.query.slug?.toString().replace(/p1L2u3S/g, '+').replace(/s1L2a3S4h/g, '/').replace(/e1Q2u3A4l/g, '=').toString() || "";
+    const chiperText = slug?.toString().replace(/p1L2u3S/g, '+').replace(/s1L2a3S4h/g, '/').replace(/e1Q2u3A4l/g, '=').toString() || "";
     const bytes = CryptoJS.AES.decrypt(chiperText, process.env.KEY || "MERDEKA1945");
     const str = bytes.toString(CryptoJS.enc.Utf8)
-
     if (!str)
       return window.location.replace("/404");
 
@@ -100,8 +98,8 @@ const Home: NextPage = () => {
 
     if (!data)
       return window.location.replace("/404");
+
     setInstance(data)
-    console.log(data)
 
 
     API.get("question").then(res => {
@@ -111,7 +109,7 @@ const Home: NextPage = () => {
 
 
 
-  }, [router.isReady])
+  }, [slug])
 
   useEffect(() => {
     checkNextPrevious();
@@ -127,7 +125,6 @@ const Home: NextPage = () => {
       }
       return;
     }
-    console.log(indexQuestion, question.length)
     if (indexQuestion == question.length)
       setIsNext(true);
     else {

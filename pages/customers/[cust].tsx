@@ -254,6 +254,7 @@ const Home: NextPage = ({ cust }: any) => {
 export default Home
 
 export async function getServerSideProps({ params }: any) {
+  console.log("Test", params);
   return {
     props: {
       ...params

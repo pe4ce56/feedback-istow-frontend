@@ -69,10 +69,7 @@ const Comments = ({ comments, onCommentsChanged }: any) => {
   </Label>
 }
 
-const Home: NextPage = () => {
-  const router = useRouter()
-  const { slug } = router.query;
-
+const Home: NextPage = ({ slug }: any) => {
   const [isLoading, setIsLoading] = useState(false);
   const [customer, setCustomer] = useState<CustomerAbstract>({ name: "", position: "", comments: "" })
   const [message, setMessage] = useState("");
@@ -84,8 +81,6 @@ const Home: NextPage = () => {
   const [isSubmited, setIsSubmited] = useState<isSubmitedAbstract>()
   const [instance, setInstance] = useState<InstanceAbstract>();
   useEffect(() => {
-    console.log(slug);
-    if (!router.isReady) return;
     setIsLoading(true)
 
 
@@ -102,7 +97,6 @@ const Home: NextPage = () => {
 
     setInstance(data)
 
-
     API.get("question").then(res => {
       setQuestion(res.data);
       setIsLoading(false)
@@ -110,7 +104,7 @@ const Home: NextPage = () => {
 
 
 
-  }, [slug])
+  }, [])
 
   useEffect(() => {
     checkNextPrevious();
@@ -258,3 +252,11 @@ const Home: NextPage = () => {
 }
 
 export default Home
+
+export async function getServerSideProps({ params }: any) {
+  return {
+    props: {
+      ...params
+    }
+  }
+}

@@ -69,7 +69,7 @@ const Comments = ({ comments, onCommentsChanged }: any) => {
   </Label>
 }
 
-const Home: NextPage = ({ slug }: any) => {
+const Home: NextPage = ({ cust }: any) => {
   const [isLoading, setIsLoading] = useState(false);
   const [customer, setCustomer] = useState<CustomerAbstract>({ name: "", position: "", comments: "" })
   const [message, setMessage] = useState("");
@@ -84,7 +84,7 @@ const Home: NextPage = ({ slug }: any) => {
     setIsLoading(true)
 
 
-    const chiperText = slug?.toString().replace(/p1L2u3S/g, '+').replace(/s1L2a3S4h/g, '/').replace(/e1Q2u3A4l/g, '=').toString() || "";
+    const chiperText = cust?.toString().replace(/p1L2u3S/g, '+').replace(/s1L2a3S4h/g, '/').replace(/e1Q2u3A4l/g, '=').toString() || "";
     const bytes = CryptoJS.AES.decrypt(chiperText, process.env.KEY || "MERDEKA1945");
     const str = bytes.toString(CryptoJS.enc.Utf8)
     if (!str)

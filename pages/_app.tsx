@@ -12,6 +12,9 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <>
+      <Head>
+        <title>Feedback iStow</title>
+      </Head>
       <Windmill usePreferences={true} >
         <Component {...pageProps} />
       </Windmill>

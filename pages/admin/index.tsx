@@ -33,10 +33,11 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js'
-import API from '../../app/API'
+import API, { checkAuth } from '../../app/API'
 import SectionTitle from '../../example/components/Typography/SectionTitle'
 import round from '../../utils'
 import { start } from 'repl'
+import { useRouter } from 'next/router'
 
 interface IQuestion {
   id: number,
@@ -65,6 +66,7 @@ function Dashboard() {
     Legend
   )
 
+  checkAuth();
 
   const [startDate, setStartDate] = useState<string>(() => {
     let date_today = new Date();
@@ -89,6 +91,7 @@ function Dashboard() {
   function onPageChange(p: number) {
     setPage(p)
   }
+
 
   useEffect(() => {
     getQuestioner()

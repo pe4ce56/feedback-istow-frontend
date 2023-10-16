@@ -27,8 +27,11 @@ import {
 import { EditIcon, MailIcon, PagesIcon, TrashIcon } from '../../icons'
 
 import Layout from '../../example/containers/Layout'
-import API from '../../app/API'
+import API, { checkAuth } from '../../app/API'
 import { useRouter } from 'next/router'
+import toast, { Toaster } from 'react-hot-toast';
+
+
 interface ITableData {
   id: number
   name: string
@@ -96,7 +99,7 @@ const FormModal: React.FC<{ isOpen: boolean, onClose: Function, onSubmit: Functi
 
 
 function Tables() {
-
+  const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [idEdit, setIdEdit] = useState(0)
   const [pageTable1, setPageTable1] = useState(1)
@@ -104,22 +107,21 @@ function Tables() {
   const [dataTable1, setDataTable1] = useState<ITableData[]>([])
   const [data, setData] = useState<ITableData[]>([])
   const resultsPerPage = 10
-  const router = useRouter();
   const [basePath, setBasePath] = useState("");
 
+  checkAuth();
+
+  useEffect(() => {
+    getInstance()
+  }, [])
 
   useEffect(() => {
     const host = window.location.host;
     const baseUrl = `http://${host}`;
     setBasePath(baseUrl);
-    console.log(baseUrl)
   }, [router.pathname]);
 
 
-  useEffect(() => {
-    console.log(router.basePath)
-    getInstance()
-  }, [])
 
 
   useEffect(() => {
@@ -174,6 +176,16 @@ function Tables() {
     else
       updateInstance(e)
   }
+
+  const copyLinkQuestioner = (data: any) => {
+    const link = basePath + "/" + CryptoJS.AES.encrypt(
+      JSON.stringify(data),
+      process.env.KEY || "MERDEKA1945"
+    ).toString().replace(/\+/g, 'p1L2u3S').replace(/\//g, 's1L2a3S4h').replace(/=/g, 'e1Q2u3A4l')
+    navigator.clipboard.writeText(link)
+    toast("Copied to clipboard");
+  }
+
   return (
     <Layout>
       <PageTitle>Instance</PageTitle>
@@ -209,14 +221,9 @@ function Tables() {
                     <Button layout="link" size="small" aria-label="Delete" onClick={() => removeQuestion(data.id)}>
                       <TrashIcon className="w-5 h-5" aria-hidden="true" />
                     </Button>
-                    <a href={basePath + "/" + CryptoJS.AES.encrypt(
-                      JSON.stringify(data),
-                      process.env.KEY || "MERDEKA1945"
-                    ).toString().replace(/\+/g, 'p1L2u3S').replace(/\//g, 's1L2a3S4h').replace(/=/g, 'e1Q2u3A4l')}>
-                      <Button layout="link" size="small" aria-label="Delete" >
-                        <MailIcon className="w-5 h-5" aria-hidden="true" />
-                      </Button>
-                    </a>
+                    <Button layout="link" size="small" onClick={() => copyLinkQuestioner(data)} >
+                      <MailIcon className="w-5 h-5" aria-hidden="true" />
+                    </Button>
                   </div>
                 </TableCell>
               </TableRow>
@@ -236,8 +243,14 @@ function Tables() {
         setIsModalOpen(false)
         setIdEdit(0);
       }} onSubmit={handleFormSubmit} />
+      <Toaster
+        toastOptions={{
+          duration: 2000,
+          className: 'bg-gray-50 dark:bg-gray-700 text-gray-600 dark:text-gray-300'
+        }}
+        position='bottom-center'
+      />
     </Layout >
   )
 }
-
 export default Tables

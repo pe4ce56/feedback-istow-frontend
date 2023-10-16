@@ -11,21 +11,25 @@ import {
   OutlineLogoutIcon,
 } from '../../icons'
 import { Avatar, Badge, Input, Dropdown, DropdownItem, WindmillContext } from '@roketid/windmill-react-ui'
+import { useRouter } from 'next/router'
+import { checkAuth } from '../../app/API'
 
 function Header() {
+  const router = useRouter();
   const { mode, toggleMode } = useContext(WindmillContext)
   const { toggleSidebar } = useContext(SidebarContext)
 
   const [isNotificationsMenuOpen, setIsNotificationsMenuOpen] = useState(false)
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false)
 
-  function handleNotificationsClick() {
-    setIsNotificationsMenuOpen(!isNotificationsMenuOpen)
+  function handleLogout() {
+    localStorage.removeItem("token");
+    window.location.replace("/admin/login");
   }
-
   function handleProfileClick() {
     setIsProfileMenuOpen(!isProfileMenuOpen)
   }
+
 
   return (
     <header className="z-40 py-4 bg-white shadow-bottom dark:bg-gray-800">
@@ -118,7 +122,7 @@ function Header() {
                 <OutlineCogIcon className="w-4 h-4 mr-3" aria-hidden="true" />
                 <span>Settings</span>
               </DropdownItem> */}
-              <DropdownItem onClick={() => alert('Log out!')}>
+              <DropdownItem onClick={() => handleLogout()}>
                 <OutlineLogoutIcon className="w-4 h-4 mr-3" aria-hidden="true" />
                 <span>Log out</span>
               </DropdownItem>

@@ -26,7 +26,8 @@ import {
 import { EditIcon, TrashIcon } from '../../icons'
 
 import Layout from '../../example/containers/Layout'
-import API from '../../app/API'
+import API, { checkAuth } from '../../app/API'
+import { useRouter } from 'next/router'
 interface ITableData {
   id: number
   question: string
@@ -102,6 +103,7 @@ function Tables() {
   const [data, setData] = useState<ITableData[]>([])
   const resultsPerPage = 10
 
+  checkAuth();
   useEffect(() => {
     getQuestion()
   }, [])

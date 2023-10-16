@@ -1,6 +1,6 @@
 import type { NextPage } from 'next'
 import React, { useEffect, useState } from 'react'
-import { Alert, Button, Card, CardBody, Input, Label } from '@roketid/windmill-react-ui';
+import { Alert, Button, Card, CardBody, Input, Label, Textarea } from '@roketid/windmill-react-ui';
 import API from '../app/API';
 import Loading from '../components/loading';
 import { useRouter } from 'next/router';
@@ -52,23 +52,29 @@ interface isSubmitedAbstract {
 
 const Form = ({ name, position, onNameChange, onPositionChange }: any) => (
   <form className='flex flex-col gap-4'>
-    <Label className='dark:text-gray-700'>
+    <Label className='dark:text-gray-700 text-gray-700'>
       <span>Name</span>
-      <Input className="mt-1 dark:bg-white  dark:text-gray-800 dark:border-gray-400" onChange={(e) => onNameChange(e.target.value)} value={name} crossOrigin={undefined} />
+      <Input className="mt-1 dark:bg-white  dark:text-gray-800 dark:border-gray-400 text-gray-800 border-gray-800" onChange={(e) => onNameChange(e.target.value)} value={name} crossOrigin={undefined} />
     </Label>
-    <Label className='dark:text-gray-700'>
+    <Label className='dark:text-gray-700 text-gray-700'>
       <span>Position</span>
       <Input className="mt-1 dark:bg-white dark:text-gray-800 dark:border-gray-400" onChange={(e) => onPositionChange(e.target.value)} value={position} crossOrigin={undefined} />
     </Label>
   </form>
 )
-
+const Comments = ({ comments, onCommentsChanged }: any) => {
+  return <Label>
+    <span className='text-gray-700'>Additional Comments</span>
+    <Textarea onChange={(e) => onCommentsChanged(e.target.value)} value={comments} className="mt-1 dark:bg-white text-gray-800 border-gray-800 dark:text-gray-800 dark:border-gray-800 resize-none" rows={6} placeholder="Enter your comments..." />
+  </Label>
+}
 
 const Home: NextPage = () => {
   const router = useRouter()
 
   const [isLoading, setIsLoading] = useState(false);
   const [customer, setCustomer] = useState<CustomerAbstract>({ name: "", position: "", comments: "" })
+  const [message, setMessage] = useState("");
   const [questioner, setQuestioner] = useState<QuestionerAbstract[]>([]);
   const [question, setQuestion] = useState<QuestionAbstract[]>([])
   const [indexQuestion, setIndexQuestion] = useState(-1);
@@ -82,16 +88,27 @@ const Home: NextPage = () => {
 
     setIsLoading(true)
 
+
+    const chiperText = router.query.slug?.toString().replace(/p1L2u3S/g, '+').replace(/s1L2a3S4h/g, '/').replace(/e1Q2u3A4l/g, '=').toString() || "";
+    const bytes = CryptoJS.AES.decrypt(chiperText, process.env.KEY || "MERDEKA1945");
+    const str = bytes.toString(CryptoJS.enc.Utf8)
+
+    if (!str)
+      return window.location.replace("/404");
+
+    const data = JSON.parse(str);
+
+    if (!data)
+      return window.location.replace("/404");
+    setInstance(data)
+
+
     API.get("question").then(res => {
       setQuestion(res.data);
       setIsLoading(false)
     }).catch(e => console.log(e))
 
 
-    const chiperText = router.query.slug?.toString().replace(/p1L2u3S/g, '+').replace(/s1L2a3S4h/g, '/').replace(/e1Q2u3A4l/g, '=').toString() || "";
-    const bytes = CryptoJS.AES.decrypt(chiperText, process.env.KEY || "MERDEKA1945");
-    const data = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
-    setInstance(data)
 
   }, [router.isReady])
 
@@ -109,10 +126,15 @@ const Home: NextPage = () => {
       }
       return;
     }
-    if (questioner[indexQuestion]?.value)
-      setIsNext(true)
-    else
-      setIsNext(false)
+    console.log(indexQuestion, question.length)
+    if (indexQuestion == question.length)
+      setIsNext(true);
+    else {
+      if (questioner[indexQuestion]?.value)
+        setIsNext(true)
+      else
+        setIsNext(false)
+    }
     setIsPrevious(indexQuestion != -1)
   }
 
@@ -129,7 +151,7 @@ const Home: NextPage = () => {
 
   const handleNext = () => {
     if (!isNext) return;
-    if (indexQuestion == question.length - 1) {
+    if (indexQuestion == question.length) {
       submit();
     }
     else
@@ -174,7 +196,7 @@ const Home: NextPage = () => {
         <p>{question[indexQuestion].question} </p>
         <div className="grid grid-cols-1 gap-y-4 mt-8 ">
           {["Very Dissatisfied", "Dissatisfied", "Less Satisfied", "Satisfied", "Very Satisfied"].map((answerData, keyAnswer) => (
-            <AnswerDesign key={keyAnswer} data={answerData} isActive={questioner.find((answer) => answer.question.id === question[indexQuestion].id)?.value == keyAnswer + 1}
+            <AnswerDesign key={keyAnswer} index={5 - keyAnswer} data={answerData} isActive={questioner.find((answer) => answer.question.id === question[indexQuestion].id)?.value == keyAnswer + 1}
               onClick={() => {
                 handleQuestion({ value: keyAnswer + 1, question: question[indexQuestion] })
               }} />
@@ -183,7 +205,10 @@ const Home: NextPage = () => {
         </div>
       </>
     )
+
   }
+
+
 
 
   return (
@@ -198,9 +223,12 @@ const Home: NextPage = () => {
               <div className="mt-8">
                 {indexQuestion == -1 ? (
                   < Form name={customer.name} position={customer.position} onNameChange={(name: string) => setCustomer({ ...customer, name })} onPositionChange={(position: string) => setCustomer({ ...customer, position })} />
-                ) : (
-                  <Question />
-                )}
+                ) :
+                  indexQuestion < question.length ?
+                    <Question />
+                    :
+                    <Comments comments={customer.comments} onCommentsChanged={(comments: string) => setCustomer({ ...customer, comments })} />
+                }
                 <div className="flex">
                   {indexQuestion != -1 && (
                     <button onClick={handlePrevious} disabled={!isPrevious} className="disabled:bg-gray-200 disabled:hover:text-primary disabled:cursor-not-allowed  mt-6 text-sm bg-transparent hover:bg-primary text-primary hover:text-white py-2 px-4 border border-primary hover:border-transparent rounded">
@@ -208,11 +236,15 @@ const Home: NextPage = () => {
                     </button>
                   )}
                   <button onClick={handleNext} disabled={!isNext} className="disabled:bg-gray-200 disabled:hover:text-primary disabled:cursor-not-allowed  disabled:border-transparent disabled:text-gray-400 disabled:hover:text-gray-400 self-end mt-6 ml-auto text-sm bg-transparent hover:bg-primary text-primary hover:text-white py-2 px-4 border border-primary hover:border-transparent rounded">
-                    {indexQuestion == question.length - 1 ? "Submit" : "Next"}
+                    {indexQuestion == question.length ? "Submit" : "Next"}
                   </button>
                 </div>
               </div>
-            ) : (<Alert className='dark:bg-green-50 dark:text-green-900 my-5' type={isSubmited.success ? 'success' : 'danger'} >Thank you for filling out the questionnaire</Alert>)}
+            ) : (
+              <Alert className='dark:bg-green-50 dark:text-green-900 my-5' type={isSubmited.success ? 'success' : 'danger'} >
+                Thank you for filling out the questionnaire
+              </Alert>
+            )}
           </CardBody>
           <div className="bg-primary w-full py-2 ">
             {(indexQuestion > -1 && !isSubmited) && (<p className='text-center text-sm text-gray-200'> {questioner[indexQuestion]?.value ? indexQuestion + 1 : indexQuestion} of {question.length} answered </p>)}

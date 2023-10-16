@@ -31,9 +31,16 @@ const routes: IRoute[] = [
     exact: true
   },
   {
+    path: '/admin/questioners', // the url
+    icon: 'FormsIcon', // the component being exported from icons/index.js
+    name: 'Questioners', // name that appear in Sidebar
+    exact: true
+  },
+  {
     path: '/admin/instance', // the url
     icon: 'CardsIcon', // the component being exported from icons/index.js
     name: 'Instance', // name that appear in Sidebar
+    exact: true
   },
   {
     icon: 'TablesIcon',
@@ -43,6 +50,7 @@ const routes: IRoute[] = [
       {
         path: '/admin/question',
         name: 'Question',
+        exact: true
       },
     ],
   },

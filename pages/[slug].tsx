@@ -101,6 +101,7 @@ const Home: NextPage = () => {
     if (!data)
       return window.location.replace("/404");
     setInstance(data)
+    console.log(data)
 
 
     API.get("question").then(res => {
